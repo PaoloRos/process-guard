@@ -4,7 +4,7 @@ import Foundation
 let usage = """
 Usage: process-guard [--max-thermal nominal|fair|serious] [--interval seconds]
                      [--checkpoint-dir path] -- command [arguments...]
-Defaults: nominal, 5 seconds, ./.process-guard/checkpoints
+Defaults: nominal, 5 seconds, ./.checkpoints
 """
 let levels = ["nominal", "fair", "serious", "critical"]
 func thermal() -> Int { ProcessInfo.processInfo.thermalState.rawValue }
@@ -26,7 +26,7 @@ var current = thermal()
 var args = CommandLine.arguments.dropFirst()
 var maximum = 0
 var interval = 5.0
-var directory = "./.process-guard/checkpoints"
+var directory = "./.checkpoints"
 while let option = args.first, option != "--" {
     args.removeFirst()
     if option == "--help" { print(usage); exit(0) }

@@ -18,10 +18,21 @@ Replace `train.py` with your training script. Put guard options before `--` and 
 | --- | --- | --- |
 | `--max-thermal` | `nominal` | Highest tolerated level: nominal, fair or serious. Critical always triggers a pause. |
 | `--interval` | `5` | Seconds between samples (fractional values supported, from 0.000001 to 2147483647). |
-| `--checkpoint-dir` | `./.process-guard/checkpoints` | Writable directory for the training program's checkpoints. Relative paths resolve from the current working directory. |
+| `--checkpoint-dir` | `./.checkpoints` | Writable directory for the training program's checkpoints. Relative paths resolve from the current working directory. |
 | `--help` | | Print usage and exit. |
 
 If the initial reading exceeds the limit, launch waits for nominal. Once running, equality with the limit is allowed. After a pause, the group stays suspended until a sample reads nominal. Workers that stay in the command's process group pause with it. Use this for unattended commands that do not read interactively from the terminal. Ctrl-C or SIGTERM forwards the signal to the group and wakes a suspended group so it can exit. The guard returns the main child's exit code, or 128 plus its terminating signal number.
+
+## Install in ~/usr/local/bin
+
+With Python 3 available and `~/usr/local/bin` already present, run the following in Terminal. The executable is installed only if the release build succeeds and the integration tests pass.
+
+```sh
+cd ~/Develop/frameworks/process-guard &&
+  swift build -c release &&
+  python3 Tests/integration.py &&
+  install -m 755 .build/release/process-guard "$HOME/usr/local/bin/process-guard"
+```
 
 ## Logs
 

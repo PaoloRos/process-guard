@@ -17,3 +17,10 @@ Moreover, the guard should save the process data into the HD, because it could h
 I think thet the process should be launched by the guard in order that it can contrllo the process.
 
 Suggest me any additional actions.
+
+## What to improve
+
+- Maybe the output on the command line:
+  - insert new line between output of the process and of the guard
+  - create an GUI
+- Look for the backup!
