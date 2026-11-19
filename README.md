@@ -16,11 +16,24 @@ Replace `train.py` with your training script. Put guard options before `--` and 
 
 | Option | Default | Meaning |
 | --- | --- | --- |
-| `--max-thermal` | `nominal` | Highest tolerated level: nominal, fair or serious. Critical always triggers a pause. |
+| `--max-thermal` | `nominal` | Highest tolerated thermal state. Accepts `nominal`, `fair`, or `serious`. |
 | `--interval` | `5` | Seconds between samples (fractional values supported, from 0.000001 to 2147483647). |
 | `--help` | | Print usage and exit. |
 
 If the initial reading exceeds the limit, launch waits for nominal. Once running, equality with the limit is allowed. After a pause, the group stays suspended until a sample reads nominal. Workers that stay in the command's process group pause with it. Use this for unattended commands that do not read interactively from the terminal. Ctrl-C or SIGTERM forwards the signal to the group and wakes a suspended group so it can exit. The guard returns the main child's exit code, or 128 plus its terminating signal number.
+
+## Thermal states
+
+macOS reports four levels of system-wide thermal pressure, listed here in increasing order. See [Apple's thermal state reference](https://developer.apple.com/documentation/foundation/processinfo/thermalstate-swift.enum).
+
+| State | Meaning |
+| --- | --- |
+| `nominal` | Normal thermal conditions. |
+| `fair` | Slightly elevated thermal pressure. |
+| `serious` | High thermal pressure. |
+| `critical` | Thermal pressure substantially reduces system performance. This state exceeds every valid `--max-thermal` setting. |
+
+The guard logs `thermal=unknown` if it receives an unrecognized state value.
 
 ## Install in ~/usr/local/bin
 
